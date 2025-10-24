@@ -7,16 +7,14 @@
   inputs.gomod2nix.inputs.nixpkgs.follows = "nixpkgs";
   inputs.gomod2nix.inputs.flake-utils.follows = "flake-utils";
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-      gomod2nix,
-    }:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    gomod2nix,
+  }:
     (flake-utils.lib.eachDefaultSystem (
-      system:
-      let
+      system: let
         pkgs = nixpkgs.legacyPackages.${system};
 
         callPackage = pkgs.callPackage;
@@ -55,8 +53,7 @@
             mkdir "$out"
           '';
         };
-      in
-      {
+      in {
         checks = {
           inherit go-test go-lint;
         };
@@ -67,5 +64,12 @@
           inherit (gomod2nix.legacyPackages.${system}) mkGoEnv gomod2nix;
         };
       }
-    ));
+    ))
+    // {
+      overlays.default = final: prev: {
+        metsaman = final.callPackage ./. {
+          inherit (gomod2nix.legacyPackages.${final.system}) buildGoApplication;
+        };
+      };
+    };
 }

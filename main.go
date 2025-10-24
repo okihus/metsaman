@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
+	fmt.Println("Metsaman!")
 	fmt.Println("Siilanttia, Siilanttia, Siilanttia")
 }
