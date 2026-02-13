@@ -68,7 +68,7 @@
     // {
       overlays.default = final: prev: {
         metsaman = final.callPackage ./. {
-          inherit (gomod2nix.legacyPackages.${final.system}) buildGoApplication;
+          inherit (gomod2nix.legacyPackages.${final.stdenv.hostPlatform.system}) buildGoApplication;
         };
       };
     };
