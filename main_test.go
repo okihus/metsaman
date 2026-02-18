@@ -1,12 +1,14 @@
 package main
 
 import (
+	"strings"
 	"testing"
 )
 
-func TestMain(t *testing.T) {
-	got := "Hello flake"
-	if got != "Hello flake" {
-		t.Errorf("main: %s; want Hello flake", got)
+func TestModelView(t *testing.T) {
+	m := model{}
+	view := m.View()
+	if !strings.Contains(view, "Metsaman!") {
+		t.Errorf("View() = %q; want it to contain \"Metsaman!\"", view)
 	}
 }
